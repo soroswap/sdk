@@ -23,3 +23,9 @@ export interface AssetListInfo {
   name: string;
   url: string;
 }
+
+export interface AssetNameSymbol {
+  address: string;
+  name: string;
+  symbol: string;
+}

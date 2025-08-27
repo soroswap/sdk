@@ -14,7 +14,7 @@ import {
   SoroswapSDKConfig,
   SupportedAssetLists,
   SupportedNetworks,
-  UserPosition
+  UserPositionResponse
 } from './types';
 import { SendRequest } from './types/send';
 
@@ -216,10 +216,10 @@ export class SoroswapSDK {
   async getUserPositions(
     address: string,
     network?: SupportedNetworks
-  ): Promise<UserPosition[]> {
+  ): Promise<UserPositionResponse[]> {
     const params = { network: network || this.defaultNetwork };
     const url = this.httpClient.buildUrlWithQuery(`/liquidity/positions/${address}`, params);
-    return this.httpClient.get<UserPosition[]>(url);
+    return this.httpClient.get<UserPositionResponse[]>(url);
   }
 
   // ========================================
