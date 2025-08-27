@@ -18,7 +18,7 @@ import {
   SupportedPlatforms,
   SupportedProtocols,
   TradeType,
-  UserPosition
+  UserPositionResponse
 } from '../src/types';
 import { SendRequest } from '../src/types/send';
 
@@ -536,19 +536,30 @@ describe('SoroswapSDK - Comprehensive Unit Tests', () => {
   });
 
   describe('User Positions', () => {
-    const mockPositions: UserPosition[] = [
+    const mockPositions: UserPositionResponse[] = [
       {
-        poolInfo: {
+        poolInformation: {
           protocol: SupportedProtocols.SOROSWAP,
           address: 'POOL_ADDRESS_123',
-          tokenA: 'TOKEN_A_123',
-          tokenB: 'TOKEN_B_456',
+          tokenA: {
+            address: 'TOKEN_A_123',
+            symbol: 'TOKEN_A',
+            name: 'Token A',
+          },
+          tokenB: {
+            address: 'TOKEN_B_456',
+            symbol: 'TOKEN_B',
+            name: 'Token B',
+          },
           reserveA: 1000000n,
           reserveB: 2000000n,
-          involvesAsset: jest.fn()
-        } as Pool,
-        userPosition: 750000n
-      } as UserPosition
+          totalSupply: 3000000n
+        },
+        userPosition: 750000n,
+        userShares: 90.00,
+        tokenAAmountEquivalent: 300000n,
+        tokenBAmountEquivalent: 600000n
+      } as UserPositionResponse
     ];
 
     it('should get user positions with default network', async () => {
