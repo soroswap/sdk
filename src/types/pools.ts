@@ -1,3 +1,4 @@
+import { AssetNameSymbol } from "./assets";
 import { SupportedProtocols } from "./common";
 
 export interface Pool {
@@ -60,7 +61,21 @@ export interface RemoveLiquidityRequest {
   slippageBps?: string
 }
 
-export interface UserPosition {
-  poolInfo: Pool
+export interface UserPositionResponse {
+  poolInformation: PoolInformation
   userPosition: bigint
+  userShares: number
+  tokenAAmountEquivalent: bigint,
+  tokenBAmountEquivalent: bigint,
+}
+
+interface PoolInformation {
+  protocol: SupportedProtocols,
+  address: string,
+  tokenA: AssetNameSymbol,
+  tokenB: AssetNameSymbol,
+  reserveA: bigint,
+  reserveB: bigint,
+  totalSupply: bigint,
+  ledger: number,
 }

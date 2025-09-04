@@ -1,6 +1,6 @@
 {
   "name": "@soroswap/sdk",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Official TypeScript SDK for Soroswap.Finance API - DEX and exchange aggregator on Stellar",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
