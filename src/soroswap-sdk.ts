@@ -229,12 +229,13 @@ export class SoroswapSDK {
   /**
    * Get asset lists metadata or specific asset list
    */
-  async getAssetList(name?: SupportedAssetLists): Promise<AssetList[] | AssetListInfo[]> {
-    const params = name ? { name } : {};
+  async getAssetList(name?: SupportedAssetLists): Promise<AssetList | AssetListInfo[]> {
+    const listName = name ? this.transformAssetList([name])[0] : undefined;
+    const params = name ?  { name: listName } : {};
     const url = this.httpClient.buildUrlWithQuery('/asset-list', params);
-    
+
     if (name) {
-      return this.httpClient.get<AssetList[]>(url);
+      return this.httpClient.get<AssetList>(url);
     } else {
       return this.httpClient.get<AssetListInfo[]>(url);
     }
