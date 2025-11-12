@@ -1,4 +1,7 @@
 # Soroswap SDK
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/soroswap/sdk)
+[![npm version](https://img.shields.io/npm/v/soroswap-sdk)](https://www.npmjs.com/package/@soroswap/sdk)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Official TypeScript SDK for [Soroswap.Finance](https://soroswap.finance) - The first DEX and exchange aggregator built on Stellar, powered by smart contracts on Soroban.
 
