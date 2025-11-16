@@ -621,7 +621,7 @@ describe('SoroswapSDK - Comprehensive Unit Tests', () => {
 
       expect(result).toEqual(mockAssetList);
       expect(mockHttpClient.get).toHaveBeenCalledWith(
-        '/asset-list?name=https%3A%2F%2Fraw.githubusercontent.com%2Fsoroswap%2Ftoken-list%2Fmain%2FtokenList.json'
+        '/asset-list?name=soroswap'
       );
     });
 
