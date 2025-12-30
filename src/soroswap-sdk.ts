@@ -16,7 +16,7 @@ import {
   SupportedNetworks,
   UserPositionResponse
 } from './types';
-import { SendRequest } from './types/send';
+import { SendRequest, SendTransactionResponse } from './types/send';
 
 /**
  * Main Soroswap SDK class
@@ -130,13 +130,14 @@ export class SoroswapSDK {
 
   /**
    * Send signed transaction
+   * @returns Normalized transaction response with parsed result
    */
-  async send(xdr: string, launchtube: boolean = false, network?: SupportedNetworks): Promise<any> {
+  async send(xdr: string, launchtube: boolean = false, network?: SupportedNetworks): Promise<SendTransactionResponse> {
     const params = { network: network || this.defaultNetwork };
     const url = this.httpClient.buildUrlWithQuery('/send', params);
-    
+
     const sendData: SendRequest = { xdr, launchtube };
-    return this.httpClient.post<any>(url, sendData);
+    return this.httpClient.post<SendTransactionResponse>(url, sendData);
   }
 
   // ========================================
