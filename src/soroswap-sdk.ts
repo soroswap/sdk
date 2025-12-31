@@ -3,6 +3,7 @@ import {
   AddLiquidityRequest,
   AssetList,
   AssetListInfo,
+  BalancesResponse,
   BuildQuoteRequest,
   BuildQuoteResponse,
   LiquidityResponse,
@@ -11,6 +12,7 @@ import {
   QuoteRequest,
   QuoteResponse,
   RemoveLiquidityRequest,
+  SingleBalanceResponse,
   SoroswapSDKConfig,
   SupportedAssetLists,
   SupportedNetworks,
@@ -256,5 +258,45 @@ export class SoroswapSDK {
 
     const url = this.httpClient.buildUrlWithQuery('/price', params);
     return this.httpClient.get<PriceData[]>(url);
+  }
+
+  // ========================================
+  // Balance Methods
+  // ========================================
+
+  /**
+   * Get all token balances for a wallet address
+   * @param walletAddress - Stellar address (G...) or contract address (C...)
+   * @param network - Optional network override
+   */
+  async getBalances(
+    walletAddress: string,
+    network?: SupportedNetworks
+  ): Promise<BalancesResponse> {
+    const params = { network: network || this.defaultNetwork };
+    const url = this.httpClient.buildUrlWithQuery(
+      `/balances/${walletAddress}`,
+      params
+    );
+    return this.httpClient.get<BalancesResponse>(url);
+  }
+
+  /**
+   * Get balance for a specific token
+   * @param walletAddress - Stellar address (G...) or contract address (C...)
+   * @param tokenAddress - Contract ID (C...) or CODE:ISSUER format
+   * @param network - Optional network override
+   */
+  async getTokenBalance(
+    walletAddress: string,
+    tokenAddress: string,
+    network?: SupportedNetworks
+  ): Promise<SingleBalanceResponse> {
+    const params = { network: network || this.defaultNetwork };
+    const url = this.httpClient.buildUrlWithQuery(
+      `/balances/${walletAddress}/${tokenAddress}`,
+      params
+    );
+    return this.httpClient.get<SingleBalanceResponse>(url);
   }
 } 
