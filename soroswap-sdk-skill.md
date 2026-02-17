@@ -353,20 +353,23 @@ if (result.result?.type === "swap") {
 
 The recommended pattern is to proxy all SDK calls through your backend API routes. This keeps the API key server-side and gives you control over caching, rate limiting, and error handling.
 
-```
-Frontend (browser)          Backend (server)              Soroswap API
-   |                            |                              |
-   |-- POST /api/quote -------->|                              |
-   |                            |-- sdk.quote() -------------->|
-   |                            |<-- QuoteResponse ------------|
-   |<-- { quote, xdr } --------|                              |
-   |                            |                              |
-   |-- [User signs XDR] ------>|                              |
-   |                            |                              |
-   |-- POST /api/send -------->|                              |
-   |   { signedXdr }           |-- sdk.send() --------------->|
-   |                            |<-- SendTransactionResponse --|
-   |<-- { result } ------------|                              |
+```mermaid
+sequenceDiagram
+    participant F as Frontend (browser)
+    participant B as Backend (server)
+    participant S as Soroswap API
+
+    F->>B: POST /api/quote
+    B->>S: sdk.quote()
+    S-->>B: QuoteResponse
+    B-->>F: { quote, xdr }
+
+    F->>F: User signs XDR
+
+    F->>B: POST /api/send { signedXdr }
+    B->>S: sdk.send()
+    S-->>B: SendTransactionResponse
+    B-->>F: { result }
 ```
 
 ### Next.js API Route Example
