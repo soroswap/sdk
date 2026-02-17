@@ -106,7 +106,7 @@ import {
 // 1. Get a quote
 const quoteRequest: QuoteRequest = {
   assetIn: "CCW67TSZV3SSS2HXMBQ5JFGCKJNXKZM7UQUWUZPUTHXSTZLEO7SJMI75",  // USDC contract
-  assetOut: "CDLZFC3SYJYDZT7K67VZ75HPJVIEUVNIXF47ZG2FB2RMQQVU2HHGCYSC", // XLM contract
+  assetOut: "CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA", // XLM contract
   amount: 1000000000n,                    // 100 USDC (7 decimals) - MUST be BigInt
   tradeType: TradeType.EXACT_IN,          // or TradeType.EXACT_OUT
   protocols: [SupportedProtocols.SOROSWAP, SupportedProtocols.AQUA],
