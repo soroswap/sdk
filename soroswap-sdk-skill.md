@@ -223,7 +223,8 @@ const positions = await sdk.getUserPositions("GWALLET...", SupportedNetworks.MAI
 
 for (const pos of positions) {
   console.log(`Pool: ${pos.poolInformation.address}`);
-  console.log(`Shares: ${pos.userShares}`);
+  console.log(`Position: ${pos.userPosition}`);           // LP token amount (raw)
+  console.log(`Share of pool: ${pos.userShares}`);          // Percentage (0-100)
   console.log(`Token A equivalent: ${pos.tokenAAmountEquivalent}`);
   console.log(`Token B equivalent: ${pos.tokenBAmountEquivalent}`);
 }
