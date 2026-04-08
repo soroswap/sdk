@@ -134,11 +134,11 @@ export class SoroswapSDK {
    * Send signed transaction
    * @returns Normalized transaction response with parsed result
    */
-  async send(xdr: string, launchtube: boolean = false, network?: SupportedNetworks): Promise<SendTransactionResponse> {
+  async send(xdr: string, network?: SupportedNetworks): Promise<SendTransactionResponse> {
     const params = { network: network || this.defaultNetwork };
     const url = this.httpClient.buildUrlWithQuery('/send', params);
 
-    const sendData: SendRequest = { xdr, launchtube };
+    const sendData: SendRequest = { xdr };
     return this.httpClient.post<SendTransactionResponse>(url, sendData);
   }
 

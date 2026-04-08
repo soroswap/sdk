@@ -81,7 +81,7 @@ async function main() {
     // Example of sending (commented out as it requires a signed XDR):
     /*
     const signedXdr = 'YOUR_SIGNED_XDR_HERE';
-    const sendResult = await sdk.send(signedXdr, false); // launchtube = false
+    const sendResult = await sdk.send(signedXdr);
     console.log('Transaction sent:', sendResult);
     */
 
@@ -170,9 +170,9 @@ function createExpressEndpoints(app) {
   // Endpoint to send signed transaction
   app.post('/api/send-transaction', async (req, res) => {
     try {
-      const { signedXdr, launchtube = false } = req.body;
+      const { signedXdr } = req.body;
 
-      const result = await sdk.send(signedXdr, launchtube);
+      const result = await sdk.send(signedXdr);
 
       res.json({
         success: true,

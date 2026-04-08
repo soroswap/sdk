@@ -83,7 +83,7 @@ The SDK accepts configuration including:
 - `apiKey` - API key for authentication (must start with 'sk_')
 - `baseUrl` - Custom API base URL (optional, defaults to 'https://api.soroswap.finance')
 - `defaultNetwork` - MAINNET or TESTNET
-- `timeout` - Request timeout (default 30s, consider increasing for launchtube)
+- `timeout` - Request timeout (default 30s)
 
 ## Build Configuration
 

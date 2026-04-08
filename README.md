@@ -52,7 +52,7 @@ const buildResponse = await soroswapClient.build({
 const signedXdr = await yourSigner.sign(buildResponse.xdr);
 
 // Send the signed transaction
-const result = await soroswapClient.send(signedXdr, false); // launchtube = false
+const result = await soroswapClient.send(signedXdr);
 console.log('Transaction result:', result);
 ```
 
@@ -65,7 +65,7 @@ interface SoroswapSDKConfig {
   apiKey: string;                   // Your Soroswap API key (starts with 'sk_')
   baseUrl?: string;                 // Custom API base URL (defaults to 'https://api.soroswap.finance')
   defaultNetwork?: SupportedNetworks;  // SupportedNetworks.MAINNET | SupportedNetworks.TESTNET
-  timeout?: number;                // Request timeout in ms (defaults to 30000) you might want to adjust this if using launchtube
+  timeout?: number;                // Request timeout in ms (defaults to 30000)
 }
 ```
 
@@ -146,9 +146,8 @@ const buildResponse = await soroswapClient.build({
 
 ```typescript
 const result = await soroswapClient.send(
-  signedXdr,           // The signed transaction XDR
-  false,               // launchtube: boolean (default false)
-  SupportedNetworks.MAINNET  // Optional network override
+  signedXdr,                        // The signed transaction XDR
+  SupportedNetworks.MAINNET         // Optional network override
 );
 ```
 

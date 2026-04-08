@@ -314,7 +314,7 @@ interface SendTransactionResponse {
   feeBump: boolean;
   feeCharged: string;               // In stroops
   protocol: "router" | "aggregator" | "sdex" | "unknown";
-  submissionMethod: "soroban" | "horizon" | "launchtube";
+  submissionMethod: "soroban" | "horizon";
 }
 
 // Type-safe result access:
@@ -337,7 +337,7 @@ if (result.result?.type === "swap") {
 |---|---|---|
 | Get quote | `quote(request, network?)` | No |
 | Build swap XDR | `build(request, network?)` | Yes |
-| Send signed TX | `send(xdr, launchtube?, network?)` | N/A |
+| Send signed TX | `send(xdr, network?)` | N/A |
 | Add liquidity | `addLiquidity(request, network?)` | Yes |
 | Remove liquidity | `removeLiquidity(request, network?)` | Yes |
 | User positions | `getUserPositions(address, network?)` | No |

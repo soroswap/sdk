@@ -94,11 +94,10 @@ interface SoroswapSDKConfig {
 - **Returns**: `BuildQuoteResponse` - Contains XDR string
 
 #### Send Transaction
-- **Method**: `send(xdr: string, launchtube: boolean = false, network?: SupportedNetworks)`
+- **Method**: `send(xdr: string, network?: SupportedNetworks)`
 - **Purpose**: Submit signed transaction to network
 - **Parameters**:
   - `xdr`: Signed transaction XDR string
-  - `launchtube`: Use launchtube for submission (optional)
   - `network`: Network override (optional)
 - **Returns**: Transaction result
 
