@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+- LaunchTube support removed from `send()` method and `SendRequest` interface
+- `launchtube` parameter removed from `send()` — signature is now `send(xdr, network?)`
+- `'launchtube'` removed from `submissionMethod` union type
+
 ### Added
 
 #### Balances Methods

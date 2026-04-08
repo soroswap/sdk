@@ -4,7 +4,6 @@
 
 export interface SendRequest {
   xdr: string;
-  launchtube?: boolean;
 }
 
 // ============================================
@@ -92,5 +91,5 @@ export interface SendTransactionResponse {
   protocol: 'router' | 'aggregator' | 'sdex' | 'unknown';
 
   /** Transaction submission method */
-  submissionMethod: 'soroban' | 'horizon' | 'launchtube';
+  submissionMethod: 'soroban' | 'horizon';
 }

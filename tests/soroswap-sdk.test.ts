@@ -286,7 +286,6 @@ describe('SoroswapSDK - Comprehensive Unit Tests', () => {
     it('should send transaction with default parameters', async () => {
       const expectedRequest: SendRequest = {
         xdr: 'SIGNED_XDR_123',
-        launchtube: false
       };
 
       mockHttpClient.post = jest.fn().mockResolvedValue(mockSendResponse);
@@ -297,29 +296,14 @@ describe('SoroswapSDK - Comprehensive Unit Tests', () => {
       expect(mockHttpClient.post).toHaveBeenCalledWith('/send?network=testnet', expectedRequest);
     });
 
-    it('should send transaction with launchtube enabled', async () => {
-      const expectedRequest: SendRequest = {
-        xdr: 'SIGNED_XDR_123',
-        launchtube: true
-      };
-
-      mockHttpClient.post = jest.fn().mockResolvedValue(mockSendResponse);
-
-      const result = await sdk.send('SIGNED_XDR_123', true);
-
-      expect(result).toEqual(mockSendResponse);
-      expect(mockHttpClient.post).toHaveBeenCalledWith('/send?network=testnet', expectedRequest);
-    });
-
     it('should send transaction with specified network', async () => {
       const expectedRequest: SendRequest = {
         xdr: 'SIGNED_XDR_123',
-        launchtube: false
       };
 
       mockHttpClient.post = jest.fn().mockResolvedValue(mockSendResponse);
 
-      const result = await sdk.send('SIGNED_XDR_123', false, SupportedNetworks.MAINNET);
+      const result = await sdk.send('SIGNED_XDR_123', SupportedNetworks.MAINNET);
 
       expect(result).toEqual(mockSendResponse);
       expect(mockHttpClient.post).toHaveBeenCalledWith('/send?network=mainnet', expectedRequest);
