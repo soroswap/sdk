@@ -196,6 +196,8 @@ interface SoroswapSDKConfig {
 - `SOROSWAP`: Soroswap protocol
 - `PHOENIX`: Phoenix protocol
 - `AQUA`: Aqua protocol
+- `COMET`: Comet protocol
+- `SUSHI`: Sushi protocol
 - `SDEX`: Stellar DEX
 
 #### SupportedAssetLists
