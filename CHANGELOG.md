@@ -7,19 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-08-11
+
 ### Added
 
 #### New Protocols
 - `SUSHI`: Sushi protocol support
-- `COMET`: Comet protocol support
+- `COMET`: Comet protocol support (previously commented out in `SupportedProtocols`)
 
 #### Distribution Return Type
 - `poolIds?: string[]` field added to `DistributionReturn` interface for pool identifier tracking
 
-### Removed
-- LaunchTube support removed from `send()` method and `SendRequest` interface
-- `launchtube` parameter removed from `send()` — signature is now `send(xdr, network?)`
-- `'launchtube'` removed from `submissionMethod` union type
+## [0.4.0] - 2026-04-08
 
 ### Added
 
@@ -57,6 +56,11 @@ if (response.result?.type === 'swap') {
   console.log(`Added liquidity, received ${response.result.shares} LP tokens`);
 }
 ```
+
+### Removed
+- LaunchTube support removed from `send()` method and `SendRequest` interface
+- `launchtube` parameter removed from `send()` — signature is now `send(xdr, network?)`
+- `'launchtube'` removed from `submissionMethod` union type
 
 ### Breaking Changes
 - `send()` return type is now `Promise<SendTransactionResponse>` instead of `Promise<any>`
