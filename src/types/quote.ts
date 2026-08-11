@@ -39,6 +39,7 @@ export interface DistributionReturn {
   parts: number
   is_exact_in: boolean
   poolHashes?: string[]
+  poolIds?: string[]
 }
 
 export interface BaseExactInTrade {

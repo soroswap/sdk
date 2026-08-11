@@ -63,7 +63,8 @@ describe('SoroswapSDK - Quote Functions', () => {
             protocol_id: SupportedProtocols.SOROSWAP,
             path: ['CAS3J7GYLGXMF6TDJBBYYSE3HQ6BBSMLNUQ34T6TZMYMW2EVH34XOWMA', 'CDTKPWPLOURQA2SGTKTUQOWRCBZEORB4BWBOMJ3D3ZTQQSGE5F6JBQLV'],
             parts: 10,
-            is_exact_in: true
+            is_exact_in: true,
+            poolIds: ['pool_1', 'pool_2']
           }]
         }
       } as any;

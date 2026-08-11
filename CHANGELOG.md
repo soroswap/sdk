@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+#### New Protocols
+- `SUSHI`: Sushi protocol support
+- `COMET`: Comet protocol support
+
+#### Distribution Return Type
+- `poolIds?: string[]` field added to `DistributionReturn` interface for pool identifier tracking
+
 ### Removed
 - LaunchTube support removed from `send()` method and `SendRequest` interface
 - `launchtube` parameter removed from `send()` — signature is now `send(xdr, network?)`
