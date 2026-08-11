@@ -27,7 +27,8 @@ export enum SupportedProtocols {
   SOROSWAP = 'soroswap',
   PHOENIX = 'phoenix',
   AQUA = 'aqua',
-  // COMET = 'comet',
+  COMET = 'comet',
+  SUSHI = 'sushi',
   SDEX = 'sdex',
 }
 
