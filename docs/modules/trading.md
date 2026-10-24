@@ -2,7 +2,7 @@
 
 > **Living document.** Read this before modifying the module. Update it in the same change whenever the module's behavior, endpoints, files, or dependencies change.
 
-**Source:** `src/soroswap-sdk.ts:108-143`, `src/types/quote.ts`, `src/types/send.ts` · **Last verified:** 2026-09-04
+**Source:** `src/soroswap-sdk.ts:108-143`, `src/types/quote.ts`, `src/types/send.ts` · **Last verified:** 2026-10-24
 
 ## Purpose
 
@@ -58,7 +58,7 @@ All three fall back to `this.defaultNetwork` when `network` is omitted (`:112`, 
 
 - [`sdk-core`](sdk-core.md) for `transformAssetList`, the network default and config.
 - [`http-client`](http-client.md) for transport and BigInt request serialization.
-- Signing is the consumer's job and needs `@stellar/stellar-sdk` or a wallet. That package is **not** a dependency of this repo (`package.json:64-66`).
+- Signing is the consumer's job when using the SDK class, with `@stellar/stellar-sdk` or a wallet. That package is a dependency (`package.json:68-71`) only because the `soroswap` CLI signs (see [cli.md](cli.md)); the SDK class never imports it.
 
 ## Testing
 

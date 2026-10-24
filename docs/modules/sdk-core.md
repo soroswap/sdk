@@ -2,7 +2,7 @@
 
 > **Living document.** Read this before modifying the module. Update it in the same change whenever the module's behavior, endpoints, files, or dependencies change.
 
-**Source:** `src/index.ts`, `src/soroswap-sdk.ts:27-93`, `src/types/common.ts` · **Last verified:** 2026-09-04
+**Source:** `src/index.ts`, `src/soroswap-sdk.ts:27-93`, `src/types/common.ts` · **Last verified:** 2026-10-24
 
 ## Purpose
 

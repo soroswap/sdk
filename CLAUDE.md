@@ -18,7 +18,7 @@ This is the official TypeScript SDK for Soroswap.Finance - a DEX and exchange ag
 
 ## Development Commands
 
-All from `package.json:12-26`.
+All from `package.json:15-29`.
 
 - `pnpm run build` / `pnpm run build:watch` - Compile TypeScript to `dist/`
 - `pnpm run clean` - Remove `dist/` (rimraf)
@@ -78,7 +78,7 @@ SDK config (`src/types/common.ts:35-40`), with defaults applied in `src/soroswap
 - **this repo -> Soroswap on-chain contracts (`factory`, `router`, `aggregator`)**: addresses resolved at runtime through `GET /api/{network}/{contractName}` (`src/soroswap-sdk.ts:88-92`). No contract address is committed in this repo.
 - **this repo -> `soroswap/token-list` repo**: `SupportedAssetLists.SOROSWAP` is that repo's raw `tokenList.json` URL (`src/types/common.ts:9`). The SDK does not fetch it; it maps the URL to the API slug `soroswap` (`src/soroswap-sdk.ts:55-56`).
 - **this repo -> third-party asset lists**: stellar.expert, lobstr.co and amm-api.aqua.network URLs used the same identifier-only way (`src/types/common.ts:10-12`).
-- **consumers -> this repo**: published to npm as `@soroswap/sdk` (`package.json:2`) from `github.com/soroswap/sdk` (`package.json:41-44`). It also ships an agent skill at `skills/soroswap-sdk/SKILL.md`, installable with `npx skills add soroswap/sdk` (`soroswap-sdk-skill.md:8`).
+- **consumers -> this repo**: published to npm as `@soroswap/sdk` (`package.json:2`) from `github.com/soroswap/sdk` (`package.json:45-48`). It also ships an agent skill at `skills/soroswap-sdk/SKILL.md`, installable with `npx skills add soroswap/sdk` (`soroswap-sdk-skill.md:8`).
 - **CLI -> Stellar RPC**: `src/cli/` calls `simulateTransaction` for `decimals()` reads and `--dry-run` checks; default public RPCs in `src/cli/stellar.ts:18-21`, overridable with `STELLAR_RPC_URL`.
 - **DeFindex and other PaltaLabs repos**: None. A case-insensitive grep for `defindex` and `paltalabs` across `src/`, `tests/`, `docs/`, `skills/`, `examples/`, `package.json`, `README.md` and `CHANGELOG.md` returns no matches; the only hit in the tree is this file.
 
