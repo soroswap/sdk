@@ -4,11 +4,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Entry summary
 
-TypeScript client for the Soroswap DEX and exchange aggregator on Stellar. Published as `@soroswap/sdk`, version `0.5.0` (`package.json:2-3`). CommonJS build only, Node `>=22` (`tsconfig.json:4`, `package.json:67-69`). Sole runtime dependency is `axios` (`package.json:64-66`).
+TypeScript client for the Soroswap DEX and exchange aggregator on Stellar. Published as `@soroswap/sdk`, version `0.5.0` (`package.json:2-3`). CommonJS build only, Node `>=22` (`tsconfig.json:4`, `package.json:72-74`). The library's only runtime dependency is `axios`; `@stellar/stellar-sdk` is a dependency used by the CLI alone (`package.json:68-71`).
 Public surface: one class `SoroswapSDK` with 14 async methods (`src/soroswap-sdk.ts:88-301`), plus `HttpClient` and every type, all re-exported from `src/index.ts:2-12`. `SoroswapSDK` is also the default export (`src/index.ts:11-12`).
 Consumes the Soroswap REST API. Default base URL `https://api.soroswap.finance`, overridable via `config.baseUrl` (`src/soroswap-sdk.ts:35`); auth is a Bearer API key set once at construction (`src/clients/http-client.ts:21`).
 The `factory`, `router` and `aggregator` contract addresses are fetched from that API at runtime, never hardcoded here (`src/soroswap-sdk.ts:88-92`).
-The SDK never signs. `build()`, `addLiquidity()` and `removeLiquidity()` return unsigned XDR; sign externally, then submit with `send(xdr, network?)` (`src/soroswap-sdk.ts:137`).
+The SDK class never signs. `build()`, `addLiquidity()` and `removeLiquidity()` return unsigned XDR; sign externally, then submit with `send(xdr, network?)` (`src/soroswap-sdk.ts:137`).
+The package also ships a `soroswap` CLI as its `bin` (`src/cli/`, `package.json:7-9`); it is the only code that signs. See "CLI conventions" below.
 Per-module detail lives in `docs/modules/README.md`. Read that router before editing any module.
 
 ## Project Overview
@@ -26,6 +27,7 @@ All from `package.json:12-26`.
 - `pnpm run test:all` - Both suites
 - `pnpm run test:watch` / `pnpm run test:coverage` - Watch mode / coverage report
 - `pnpm run lint` / `pnpm run lint:fix` - ESLint on `src/**/*.ts`
+- `node dist/cli/index.js <command>` - Run the CLI from a build (installed, it is `soroswap <command>`)
 - `pnpm run prepare` - Builds before publishing; `pnpm run prepublishOnly` - Tests and lints before publishing
 
 ## Architecture
@@ -77,6 +79,7 @@ SDK config (`src/types/common.ts:35-40`), with defaults applied in `src/soroswap
 - **this repo -> `soroswap/token-list` repo**: `SupportedAssetLists.SOROSWAP` is that repo's raw `tokenList.json` URL (`src/types/common.ts:9`). The SDK does not fetch it; it maps the URL to the API slug `soroswap` (`src/soroswap-sdk.ts:55-56`).
 - **this repo -> third-party asset lists**: stellar.expert, lobstr.co and amm-api.aqua.network URLs used the same identifier-only way (`src/types/common.ts:10-12`).
 - **consumers -> this repo**: published to npm as `@soroswap/sdk` (`package.json:2`) from `github.com/soroswap/sdk` (`package.json:41-44`). It also ships an agent skill at `skills/soroswap-sdk/SKILL.md`, installable with `npx skills add soroswap/sdk` (`soroswap-sdk-skill.md:8`).
+- **CLI -> Stellar RPC**: `src/cli/` calls `simulateTransaction` for `decimals()` reads and `--dry-run` checks; default public RPCs in `src/cli/stellar.ts:18-21`, overridable with `STELLAR_RPC_URL`.
 - **DeFindex and other PaltaLabs repos**: None. A case-insensitive grep for `defindex` and `paltalabs` across `src/`, `tests/`, `docs/`, `skills/`, `examples/`, `package.json`, `README.md` and `CHANGELOG.md` returns no matches; the only hit in the tree is this file.
 
 ## Key Implementation Notes
@@ -108,6 +111,21 @@ SDK config (`src/types/common.ts:35-40`), with defaults applied in `src/soroswap
 3. Build the URL with `this.httpClient.buildUrlWithQuery(...)`, then call `get`/`post`
 4. Add unit tests with mocked responses; consider an integration test
 5. Update the module's doc under `docs/modules/` in the same change
+
+## CLI conventions
+
+The `soroswap` command lives in `src/cli/` (module doc: `docs/modules/cli.md`). Its users are scripts and AI agents as much as people, so these rules are a contract; keep them when adding or changing a command:
+
+- **Non-interactive.** No prompts, no TTY detection that changes behavior. Everything comes from flags, positionals, env vars or stdin (`--xdr -`).
+- **Output.** Default is a human table. `-f json` / `--format json` / `--output json` prints exactly one JSON document on stdout. Errors in JSON mode are `{"error": "..."}` on stdout; in table mode `Error: ...` on stderr.
+- **Exit codes.** `0` ok, `1` runtime failure (API, network, signing, failed dry-run simulation), `2` usage error. Throw `UsageError` for bad input, `CliError` for the rest (`src/cli/errors.ts`).
+- **Field names.** camelCase; amounts as strings, twice: human units (`amountOut`) and smallest unit (`amountOutRaw`); prices are `priceUsd`; percentages end in `Pct` (`priceImpactPct`) and are numbers; unknown values are `null`, never `0` or `""`. Reuse an existing field name before inventing one.
+- **Amounts.** `--amount` is human units, converted with the asset's decimals; `--raw-amount` is the smallest unit. Mutually exclusive, exactly one required. Never round: too many decimals is an error.
+- **Anything that moves funds** builds through the API, and takes `--dry-run`, which stops before signing, simulates on Stellar RPC and prints the unsigned `xdr`. Signing as a separate step is `sign --xdr`.
+- **Secrets from env only.** `SOROSWAP_API_KEY`, `STELLAR_SECRET_KEY`. Never add a flag that takes a key. New signer backends (Privy, Turnkey, KMS) go in `SIGNER_FACTORIES` (`src/cli/signer.ts:53`), selected with `STELLAR_SIGNER`, configured by their own env vars.
+- **`--network mainnet|testnet`** on every command, default mainnet.
+- **Reuse the SDK.** A command calls `SoroswapSDK` methods; if it needs an endpoint the SDK lacks, add the method to the SDK first (see "Adding New API Methods").
+- **Tests** go through `run()` with fake `CliDeps` (`tests/cli.test.ts`): assert the exact JSON shape and the exit code. No network in unit tests.
 
 ## Module Documentation Convention (MANDATORY)
 
