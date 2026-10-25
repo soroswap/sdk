@@ -67,7 +67,7 @@ const transaction = TransactionBuilder.fromXDR(
 
 transaction.sign(Keypair.fromSecret(process.env.STELLAR_SECRET_KEY as string));
 
-const result = await sdk.send(transaction.toXDR(), false, SupportedNetworks.MAINNET);
+const result = await sdk.send(transaction.toXDR(), SupportedNetworks.MAINNET);
 ```
 
 **Use `Networks.PUBLIC` or `Networks.TESTNET`** (from `@stellar/stellar-sdk`) when parsing XDR. These are different from `SupportedNetworks.MAINNET`/`SupportedNetworks.TESTNET` (from `@soroswap/sdk`) which are used for SDK method calls.
@@ -131,7 +131,7 @@ const buildResponse = await sdk.build(buildRequest, SupportedNetworks.MAINNET);
 const signedXdr = signTransaction(buildResponse.xdr);
 
 // 4. Send signed transaction
-const result = await sdk.send(signedXdr, false, SupportedNetworks.MAINNET);
+const result = await sdk.send(signedXdr, SupportedNetworks.MAINNET);
 
 if (result.success && result.result?.type === "swap") {
   console.log(`Swapped ${result.result.amountIn} for ${result.result.amountOut}`);
@@ -423,7 +423,7 @@ app.post("/api/quote-and-build", async (req, res) => {
 
 app.post("/api/send-transaction", async (req, res) => {
   const { signedXdr } = req.body;
-  const result = await sdk.send(signedXdr, false);
+  const result = await sdk.send(signedXdr);
   res.json(result);
 });
 ```
