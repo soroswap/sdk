@@ -2,7 +2,7 @@
 
 > **Living document.** Read this before modifying the module. Update it in the same change whenever the module's behavior, endpoints, files, or dependencies change.
 
-**Source:** `src/index.ts`, `src/soroswap-sdk.ts:27-93`, `src/types/common.ts` · **Last verified:** 2026-09-04
+**Source:** `src/index.ts`, `src/soroswap-sdk.ts:27-93`, `src/types/common.ts` · **Last verified:** 2026-10-24
 
 ## Purpose
 
@@ -57,7 +57,7 @@ Exported enums, all in `src/types/common.ts`:
 - Depended on by every other module doc here; they all call methods on the same class instance.
 - External: the Soroswap API at `https://api.soroswap.finance` (`src/soroswap-sdk.ts:35`), overridable via `config.baseUrl`.
 - On-chain: `factory`, `router` and `aggregator` contract addresses are resolved through the API, not hardcoded here (`src/soroswap-sdk.ts:90`).
-- Runtime dependency is `axios` only (`package.json:64-66`). Node `>=22` (`package.json:67-69`).
+- Runtime dependency of the library is `axios` only. `@stellar/stellar-sdk` is also a dependency, but only the CLI imports it (see [cli.md](cli.md)). Node `>=22` (`package.json:72-74`).
 
 ## Gotchas & invariants
 

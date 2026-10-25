@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+#### CLI
+- `soroswap` command (package `bin`): `quote`, `swap`, `price`, `balances`, `pools`, `sign`
+- `-f json` / `--output json` on every command; errors as `{"error": "..."}` with exit code 1 (runtime) or 2 (usage)
+- `swap --dry-run` builds and simulates and prints the unsigned XDR; `sign --xdr <xdr|-> [--submit]` signs it later
+- Signer from environment variables only (`STELLAR_SECRET_KEY`), with a `STELLAR_SIGNER` registry for remote signers
+- `--amount` (human units, decimals resolved from the asset) and `--raw-amount`, mutually exclusive
+- New runtime dependency `@stellar/stellar-sdk`, used by the CLI only
+
 ## [0.5.0] - 2026-08-11
 
 ### Added

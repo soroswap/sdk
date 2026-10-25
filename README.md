@@ -15,6 +15,7 @@ Official TypeScript SDK for [Soroswap.Finance](https://soroswap.finance) - The f
 - **📝 TypeScript Support**: Full type safety with comprehensive interfaces
 - **⚡ Lightweight**: No complex authentication flows or token management
 - **🧪 Well Tested**: Comprehensive unit test coverage
+- **🖥️ CLI**: a `soroswap` command for scripts and AI agents, with JSON output
 
 ## 🚀 Installation
 
@@ -55,6 +56,52 @@ const signedXdr = await yourSigner.sign(buildResponse.xdr);
 const result = await soroswapClient.send(signedXdr);
 console.log('Transaction result:', result);
 ```
+
+## 🖥️ Command-line interface
+
+The package also installs a `soroswap` command. It is non-interactive and every command takes `-f json`, so scripts and AI agents can call it through a shell.
+
+```bash
+npm install -g @soroswap/sdk
+export SOROSWAP_API_KEY="sk_..."
+
+soroswap quote --from XLM --to USDC --amount 100
+soroswap price XLM USDC -f json
+```
+
+| Command | What it does |
+|---|---|
+| `soroswap quote --from <asset> --to <asset> --amount <n>` | Best route and price. `--exact-out`, `--slippage-bps`, `--protocols`, `--max-hops`, `--parts` |
+| `soroswap swap ... [--dry-run]` | Quote, build, sign and submit. With `--dry-run`, build and simulate only and print the unsigned XDR |
+| `soroswap sign --xdr <xdr\|-> [--submit]` | Sign an XDR with the configured signer; `--submit` sends it through the API |
+| `soroswap price <asset> [...]` | USD price per asset |
+| `soroswap balances [<address>]` | Token balances (defaults to the signer's address; `--include-zero`) |
+| `soroswap pools [<assetA> <assetB>]` | All pools, or the pools of one pair (`--protocols`, `--asset-list`, `--limit`) |
+
+Run `soroswap --help` or `soroswap <command> --help` for every flag.
+
+**Assets** can be a contract id (`C...`), `XLM`, `CODE:ISSUER`, or a symbol from the [Soroswap token list](https://github.com/soroswap/token-list) (`USDC`). An ambiguous symbol is an error that lists the matching contracts.
+
+**Amounts**: `--amount` takes human units and the CLI resolves the decimals from the asset (token list, then the contract's `decimals()` on chain). `--raw-amount` takes the smallest unit as is. The two are mutually exclusive. In JSON output every amount comes twice, as a human string (`amountOut`) and as a raw integer string (`amountOutRaw`).
+
+**Signing** is configured through environment variables only, never flags:
+
+| Variable | Use |
+|---|---|
+| `SOROSWAP_API_KEY` | API key, for every command that calls the API |
+| `STELLAR_SECRET_KEY` | Secret key (`S...`) that signs `swap` and `sign` |
+| `STELLAR_SIGNER` | Signer backend, default `secret-key` (the only one today) |
+| `SOROSWAP_API_URL` | API base URL, default `https://api.soroswap.finance` |
+| `STELLAR_RPC_URL` | Stellar RPC for decimals lookups and dry-run simulation, for the network you pass |
+
+To keep the key away from the machine that builds the swap, build on one side and sign on the other:
+
+```bash
+soroswap swap --from XLM --to USDC --amount 10 --dry-run --address G... -f json > swap.json
+jq -r .xdr swap.json | soroswap sign --xdr - --submit -f json
+```
+
+**Output and errors**: the default format is a table. With `-f json` (or `--output json`) the result is one JSON document on stdout, and a failure prints `{"error": "..."}` on stdout too, with exit code `1` (API, network, signing) or `2` (bad arguments). Missing values are `null`, never `0`. `--network testnet` switches every command to testnet; the default is mainnet.
 
 ## 🔧 Configuration
 

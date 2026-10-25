@@ -4,6 +4,9 @@
   "description": "Official TypeScript SDK for Soroswap.Finance API - DEX and exchange aggregator on Stellar",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "bin": {
+    "soroswap": "dist/cli/index.js"
+  },
   "files": [
     "dist/**/*",
     "README.md",
@@ -34,7 +37,8 @@
     "swap",
     "liquidity",
     "sdk",
-    "typescript"
+    "typescript",
+    "cli"
   ],
   "author": "Soroswap Team",
   "license": "MIT",
@@ -62,6 +66,7 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@stellar/stellar-sdk": "16.3.1",
     "axios": "^1.10.0"
   },
   "engines": {
