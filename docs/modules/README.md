@@ -12,3 +12,4 @@ This repo is a single npm package (`@soroswap/sdk`) whose public surface is one 
 | [liquidity-pools.md](liquidity-pools.md) | `src/soroswap-sdk.ts:145-226`, `src/types/pools.ts` | Pool reads and liquidity add/remove/positions. |
 | [assets-prices.md](assets-prices.md) | `src/soroswap-sdk.ts:228-261`, `src/types/assets.ts`, `src/types/price.ts` | Asset list metadata and spot prices. |
 | [balances.md](balances.md) | `src/soroswap-sdk.ts:263-301`, `src/types/balances.ts` | Wallet balance reads, whole wallet or single token. |
+| [cli.md](cli.md) | `src/cli/` | The `soroswap` command: quote, swap, price, balances, pools, sign; JSON output and env-only signing. |

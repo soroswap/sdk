@@ -2,7 +2,7 @@
 
 > **Living document.** Read this before modifying the module. Update it in the same change whenever the module's behavior, endpoints, files, or dependencies change.
 
-**Source:** `src/clients/http-client.ts` · **Last verified:** 2026-09-04
+**Source:** `src/clients/http-client.ts` · **Last verified:** 2026-10-24
 
 ## Purpose
 
@@ -42,7 +42,7 @@ buildUrlWithQuery(baseUrl: string, params: Record<string, any>): string        /
 
 ## Dependencies
 
-- `axios ^1.10.0` (`package.json:65`). The sole runtime dependency of the package.
+- `axios ^1.10.0` (`package.json:70`). The sole runtime dependency of the library; `@stellar/stellar-sdk` (`:69`) is used by the CLI alone.
 - Consumed by `SoroswapSDK` (`src/soroswap-sdk.ts:1`, `:38`). Re-exported for consumers at `src/index.ts:8`.
 
 ## Testing
