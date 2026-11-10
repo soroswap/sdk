@@ -273,6 +273,8 @@ const routerAddress = await soroswapClient.getContractAddress(SupportedNetworks.
 const aggregatorAddress = await soroswapClient.getContractAddress(SupportedNetworks.MAINNET, 'aggregator');
 ```
 
+`getContractAddress(network, 'aggregator')` returns the address of the Soroswap aggregator v3, the contract the API builds aggregator swaps for. To swap, use `quote()` → `build()` → `send()` rather than calling the aggregator contract directly.
+
 ## 🔐 Security Best Practices
 
 1. **Environment Variables**: Store API keys in environment variables, not in code

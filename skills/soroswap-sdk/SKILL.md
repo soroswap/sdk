@@ -300,6 +300,8 @@ const factory = await sdk.getContractAddress(SupportedNetworks.MAINNET, "factory
 const aggregator = await sdk.getContractAddress(SupportedNetworks.MAINNET, "aggregator");
 ```
 
+`getContractAddress(network, 'aggregator')` returns the address of the Soroswap aggregator v3, the contract the API builds aggregator swaps for. To swap, use `quote()` → `build()` → `send()` rather than calling the aggregator contract directly.
+
 ## SendTransaction Response
 
 All signed transactions submitted via `sdk.send()` return a typed response:
