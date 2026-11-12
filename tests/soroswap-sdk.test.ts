@@ -142,6 +142,15 @@ describe('SoroswapSDK - Comprehensive Unit Tests', () => {
 
       await expect(sdk.getProtocols()).rejects.toThrow(errorMessage);
     });
+
+    // The API validates `protocols` against this enum, so its wire values are a
+    // contract: dropping or renaming one turns that venue into a 400 for integrators.
+    it('should expose every supported protocol with its API wire value', () => {
+      expect(Object.values(SupportedProtocols).sort()).toEqual(
+        ['aqua', 'comet', 'curve', 'phoenix', 'sdex', 'soroswap', 'sushi']
+      );
+      expect(SupportedProtocols.CURVE).toBe('curve');
+    });
   });
 
   describe('Quote Operations', () => {
@@ -213,6 +222,21 @@ describe('SoroswapSDK - Comprehensive Unit Tests', () => {
 
       expect(result).toEqual(mockQuoteResponse);
       expect(mockHttpClient.post).toHaveBeenCalledWith('/quote?network=testnet', quoteWithOptionals);
+    });
+
+    it('should send curve in the quote protocols list', async () => {
+      const curveQuoteRequest: QuoteRequest = {
+        ...mockQuoteRequest,
+        protocols: [SupportedProtocols.SOROSWAP, SupportedProtocols.CURVE]
+      };
+      mockHttpClient.post = jest.fn().mockResolvedValue(mockQuoteResponse);
+
+      await sdk.quote(curveQuoteRequest, SupportedNetworks.MAINNET);
+
+      expect(mockHttpClient.post).toHaveBeenCalledWith(
+        '/quote?network=mainnet',
+        expect.objectContaining({ protocols: ['soroswap', 'curve'] })
+      );
     });
 
     it('should handle quote errors', async () => {
@@ -727,6 +751,14 @@ describe('SoroswapSDK - Comprehensive Unit Tests', () => {
       expect(mockHttpClient.get).toHaveBeenCalledWith(
         '/pools?network=testnet&protocol=soroswap&protocol=aqua&protocol=phoenix'
       );
+    });
+
+    it('should pass curve as a pools protocol filter', async () => {
+      mockHttpClient.get = jest.fn().mockResolvedValue([]);
+
+      await sdk.getPools(SupportedNetworks.MAINNET, [SupportedProtocols.CURVE]);
+
+      expect(mockHttpClient.get).toHaveBeenCalledWith('/pools?network=mainnet&protocol=curve');
     });
   });
 });

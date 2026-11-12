@@ -109,7 +109,7 @@ const soroswapClient = new SoroswapSDK({
 
 ```typescript
 const protocols = await soroswapClient.getProtocols(SupportedNetworks.MAINNET);
-// Returns: ['sdex', 'soroswap', 'phoenix', 'aqua', 'comet', 'sushi']
+// Returns: ['sdex', 'soroswap', 'phoenix', 'aqua', 'comet', 'sushi', 'curve']
 ```
 
 #### Get Quote
