@@ -109,7 +109,7 @@ const soroswapClient = new SoroswapSDK({
 
 ```typescript
 const protocols = await soroswapClient.getProtocols(SupportedNetworks.MAINNET);
-// Returns: ['sdex', 'soroswap', 'phoenix', 'aqua', 'comet', 'sushi']
+// Returns: ['sdex', 'soroswap', 'phoenix', 'aqua', 'comet', 'sushi', 'curve']
 ```
 
 #### Get Quote
@@ -272,6 +272,8 @@ const factoryAddress = await soroswapClient.getContractAddress(SupportedNetworks
 const routerAddress = await soroswapClient.getContractAddress(SupportedNetworks.MAINNET, 'router');
 const aggregatorAddress = await soroswapClient.getContractAddress(SupportedNetworks.MAINNET, 'aggregator');
 ```
+
+`getContractAddress(network, 'aggregator')` returns the address of the Soroswap aggregator v3, the contract the API builds aggregator swaps for. To swap, use `quote()` → `build()` → `send()` rather than calling the aggregator contract directly.
 
 ## 🔐 Security Best Practices
 

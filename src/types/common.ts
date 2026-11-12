@@ -30,6 +30,7 @@ export enum SupportedProtocols {
   COMET = 'comet',
   SUSHI = 'sushi',
   SDEX = 'sdex',
+  CURVE = 'curve',
 }
 
 export interface SoroswapSDKConfig {
