@@ -2,7 +2,7 @@
 
 > **Living document.** Read this before modifying the module. Update it in the same change whenever the module's behavior, endpoints, files, or dependencies change.
 
-**Source:** `src/index.ts`, `src/soroswap-sdk.ts:27-93`, `src/types/common.ts` · **Last verified:** 2026-09-04
+**Source:** `src/index.ts`, `src/soroswap-sdk.ts:27-93`, `src/types/common.ts` · **Last verified:** 2026-11-12
 
 ## Purpose
 
@@ -36,7 +36,7 @@ Exported enums, all in `src/types/common.ts`:
 | `SupportedAssetLists` | four full URLs: soroswap token-list, stellar.expert, lobstr, aqua | `common.ts:8` |
 | `SupportedPlatforms` | `sdex`, `aggregator`, `router` | `common.ts:15` |
 | `SupportedNetworks` | `testnet`, `mainnet` | `common.ts:21` |
-| `SupportedProtocols` | `soroswap`, `phoenix`, `aqua`, `comet`, `sushi`, `sdex` | `common.ts:26` |
+| `SupportedProtocols` | `soroswap`, `phoenix`, `aqua`, `comet`, `sushi`, `sdex`, `curve` | `common.ts:26` |
 
 ## Endpoints called
 
@@ -63,6 +63,7 @@ Exported enums, all in `src/types/common.ts`:
 
 - **The API key is never validated.** README and CLAUDE.md say keys "must start with `sk_`", but no code in `src/` checks the prefix. A malformed key fails at the API, not at construction.
 - **`getProtocols` returns `string[]`, not `SupportedProtocols[]`** (`src/soroswap-sdk.ts:102`). Cast at your own risk. A new server-side protocol will appear here before the enum knows about it.
+- **`SupportedProtocols` values are the API's wire format.** The Soroswap API validates the `protocols` field of `/quote` against this enum, so it only accepts a new value (e.g. `curve`, `common.ts:33`) once the API itself upgrades its `@soroswap/sdk` dependency. An enum member here does not mean the API routes through that venue yet; `getProtocols()` is the runtime source of truth.
 - **`getPools` and `getPoolByTokens` do not fall back to `defaultNetwork`.** They take `network` as a required positional arg. Every other method treats it as an optional override. See [liquidity-pools.md](liquidity-pools.md).
 - The default export and the named `SoroswapSDK` export are the same class (`src/index.ts:2`, `:11-12`). Do not add a second default.
 - `tsconfig.json:4` sets `"module": "commonjs"`. The package ships `dist/index.js` + `dist/index.d.ts` (`package.json:5-6`). There is no ESM build.
@@ -71,6 +72,6 @@ Exported enums, all in `src/types/common.ts`:
 
 - Constructor defaults and overrides: `tests/soroswap-sdk.test.ts:56-76`, `tests/quote.test.ts:16-34`.
 - Contract addresses, all three names plus error path: `tests/soroswap-sdk.test.ts:77-117`.
-- Protocols, default and explicit network plus error path: `tests/soroswap-sdk.test.ts:118-146`.
+- Protocols, default and explicit network plus error path: `tests/soroswap-sdk.test.ts:118-154`. Full `SupportedProtocols` wire-value set (guards against a venue being dropped or renamed): `:148-153`. `curve` reaching the wire in `quote` and `getPools`: `:227-240`, `:756-762`.
 - Asset-list transform is covered indirectly through `quote`: `tests/quote.test.ts:84-166`.
 - Unit tests mock `axios` wholesale in `tests/setup.ts:10-25`, so nothing here exercises real serialization.

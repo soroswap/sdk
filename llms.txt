@@ -199,6 +199,7 @@ interface SoroswapSDKConfig {
 - `COMET`: Comet protocol
 - `SUSHI`: Sushi protocol
 - `SDEX`: Stellar DEX
+- `CURVE`: Curve StableSwap protocol
 
 #### SupportedAssetLists
 - `SOROSWAP`: Soroswap token list

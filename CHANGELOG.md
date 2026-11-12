@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.1] - Unreleased
+
+### Added
+
+#### New Protocols
+- `CURVE`: Curve StableSwap protocol support (`SupportedProtocols.CURVE = 'curve'`). The API only accepts `curve` in `protocols` once it runs this SDK version; use `getProtocols()` to check whether a network currently routes through it.
+
+### Documentation
+- Per-module living docs under `docs/modules/`, rewritten `CLAUDE.md`, and `README.md`/skill updates (`getContractAddress('aggregator')` returns aggregator v3; `send()` examples no longer pass the removed LaunchTube argument). No code changes beyond `CURVE`.
+
 ## [0.5.0] - 2026-08-11
 
 ### Added
